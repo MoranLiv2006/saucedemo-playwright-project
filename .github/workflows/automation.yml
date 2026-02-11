@@ -1,0 +1,33 @@
+name: Playwright Automation Tests
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+          playwright install --with-deps
+
+      - name: Run tests
+        env:
+          BASE_URL: ${{ secrets.BASE_URL }}
+          PASSWORD: ${{ secrets.PASSWORD }}
+          HEADLESS: "true"
+        run: |
+          pytest --maxfail=1 --disable-warnings -v
