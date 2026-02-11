@@ -26,7 +26,7 @@ jobs:
 
       - name: Run tests
         env:
-          BASE_URL: ${{ secrets.BASE_URL }}
+          BASE_URL: ${{ vars.BASE_URL }}
           PASSWORD: ${{ secrets.PASSWORD }}
           HEADLESS: "true"
         run: |
