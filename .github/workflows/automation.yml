@@ -24,6 +24,11 @@ jobs:
           pip install -r requirements.txt
           playwright install --with-deps
 
+      - name: Debug BASE_URL
+        run: echo "BASE_URL=${BASE_URL}"
+        env:
+          BASE_URL: ${{ vars.BASE_URL }}
+
       - name: Run tests
         env:
           BASE_URL: ${{ vars.BASE_URL }}
