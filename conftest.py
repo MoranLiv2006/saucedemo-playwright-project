@@ -1,18 +1,17 @@
-import pytest
 import os
 
+import pytest
 from dotenv import load_dotenv
 from playwright.sync_api import sync_playwright
 
-from src.pages.inventory_page import InventoryPage
-from src.pages.login_page import LoginPage
-
 load_dotenv()
+
 
 @pytest.fixture(scope="session")
 def playwright_instance():
     with sync_playwright() as p:
         yield p
+
 
 @pytest.fixture(scope="session")
 def browser(playwright_instance):
@@ -20,6 +19,7 @@ def browser(playwright_instance):
     browser = playwright_instance.chromium.launch(headless=headless)
     yield browser
     browser.close()
+
 
 @pytest.fixture(scope="function")
 def setup_browser(browser):
@@ -29,13 +29,3 @@ def setup_browser(browser):
     page.goto(os.getenv("BASE_URL"))
     yield page
     context.close()
-
-#
-# @pytest.fixture()
-# def login_page(setup_browser):
-#     return LoginPage(setup_browser)
-#
-#
-# @pytest.fixture()
-# def inventory_page(setup_browser):
-#     return InventoryPage(setup_browser)
